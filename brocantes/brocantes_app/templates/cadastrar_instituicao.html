@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Cadastrar Instituição</h2>
+
+  <!-- Exibe a mensagem de erro, se houver -->
+  {% if error_message %}
+  <div class="error-message">
+    {{ error_message }}
+  </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_estado">Estado:</label>
+        <select id="id_estado" name="estado" class="form-control">
+            <option value="">Selecione um Estado</option>
+            {% for estado in estados %}
+            <option value="{{ estado.id }}">{{ estado.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="id_cidade">Cidade:</label>
+        <select id="id_cidade" name="cidade" class="form-control">
+            <option value="">Selecione uma Cidade</option>
+            <!-- As opções serão carregadas dinamicamente via AJAX -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="id_nome">Nome da Instituição:</label>
+        <input type="text" id="id_nome" name="nome" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+
+  <script>
+    document.getElementById('id_estado').addEventListener('change', function() {
+      var estadoId = this.value;
+      var cidadeSelect = document.getElementById('id_cidade');
+      
+      // Limpa o campo de cidade
+      cidadeSelect.innerHTML = '<option value="">Selecione uma Cidade</option>';
+
+      if (estadoId) {
+        fetch(`/cidades_por_estado/${estadoId}/`)
+        .then(response => response.json())
+        .then(data => {
+          data.cidades.forEach(function(cidade) {
+            var option = document.createElement('option');
+            option.value = cidade.id;
+            option.textContent = cidade.nome;
+            cidadeSelect.appendChild(option);
+          });
+        });
+      }
+    });
+  </script>
+{% endblock %}
