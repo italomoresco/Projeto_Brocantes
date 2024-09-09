@@ -14,7 +14,7 @@ class RegisterForm(forms.ModelForm):
         fields = ['name', 'login', 'password']
 
     def save(self, commit=True):
-        user = super(RegisterForm, self).save(commit=False)
+        user = super(RegisterForm, self).save(commit=True)
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()

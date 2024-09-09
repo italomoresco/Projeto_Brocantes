@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, RegisterForm
 from .models import User
+from django.http import HttpResponseForbidden
 
 def login_view(request):
     if request.method == 'POST':
@@ -29,7 +30,11 @@ def logout_view(request):
 def home(request):
     return render(request, 'home.html')
 
+@login_required
 def register_view(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
