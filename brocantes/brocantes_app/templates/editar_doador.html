@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Editar Doador</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_nome">Nome:</label>
+      <input type="text" id="id_nome" name="nome" value="{{ form.nome.value|default_if_none:'' }}" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="id_email">Email:</label>
+      <input type="email" id="id_email" name="email" value="{{ form.email.value|default_if_none:'' }}" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="id_telefone">Telefone:</label>
+      <input type="text" id="id_telefone" name="telefone" value="{{ form.telefone.value|default_if_none:'' }}" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="id_documento_id">Documento ID:</label>
+      <input type="text" id="id_documento_id" name="documento_id" value="{{ form.documento_id.value|default_if_none:'' }}" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="id_estado">Estado:</label>
+      <select id="id_estado" name="estado" class="form-control">
+        <option value="">Selecione um Estado</option>
+        {% for estado in estados %}
+          <option value="{{ estado.id }}" {% if estado.id == form.estado.value %}selected{% endif %}>{{ estado.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="id_cidade">Cidade:</label>
+      <select id="id_cidade" name="cidade" class="form-control">
+        <option value="">Selecione uma Cidade</option>
+        {% for cidade in cidades %}
+          <option value="{{ cidade.id }}" {% if cidade.id == form.cidade.value %}selected{% endif %}>{{ cidade.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+  </form>
+
+  <script>
+    document.getElementById('id_estado').addEventListener('change', function() {
+      var estadoId = this.value;
+      var cidadeSelect = document.getElementById('id_cidade');
+      
+      // Limpa o campo de cidade
+      cidadeSelect.innerHTML = '<option value="">Selecione uma Cidade</option>';
+
+      if (estadoId) {
+        fetch(`/cidades_por_estado/${estadoId}/`)
+        .then(response => response.json())
+        .then(data => {
+          data.cidades.forEach(function(cidade) {
+            var option = document.createElement('option');
+            option.value = cidade.id;
+            option.textContent = cidade.nome;
+            cidadeSelect.appendChild(option);
+          });
+        });
+      }
+    });
+  </script>
+{% endblock %}
