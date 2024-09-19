@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, RegisterForm, InstituicaoForm
+from .forms import LoginForm, RegisterForm, InstituicaoForm, DoadorForm
 from .models import User, Cidade, Estado, Instituicao
 from django.http import HttpResponseForbidden, JsonResponse
 from brocantes_app.models import Cidade, Estado
@@ -97,4 +97,18 @@ def ajax_carrega_cidades(request):
 def cidades_por_estado(request, estado_id):
     cidades = Cidade.objects.filter(estado_id=estado_id).values('id', 'nome')
     return JsonResponse({'cidades': list(cidades)})    
+
+def cadastrar_doador(request):
+    estados = Estado.objects.all().order_by('nome')  # Carrega os estados em ordem alfabética
+    if request.method == 'POST':
+        form = DoadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Doador gravado com sucesso!')
+            #return redirect('lista_doadores')
+            return redirect('cadastrar_doador')
+    else:
+        form = DoadorForm()
+    return render(request, 'cadastrar_doador.html', {'form': form, 'estados': estados})
+
 

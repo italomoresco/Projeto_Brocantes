@@ -54,3 +54,13 @@ class Instituicao(models.Model):
     def __str__(self):
         return self.nome
 
+class Doador(models.Model):
+    nome = models.CharField(max_length=100, verbose_name="Nome", null=False, blank=False)
+    email = models.EmailField(max_length=100, verbose_name="Email", null=True, blank=True)
+    telefone = models.CharField(max_length=20, verbose_name="Telefone", null=True, blank=True)
+    documento_id = models.CharField(max_length=50, verbose_name="Documento de Identificação", null=True, blank=True)
+    cidade = models.ForeignKey('Cidade', on_delete=models.CASCADE, verbose_name="Cidade")
+    estado = models.ForeignKey('Estado', on_delete=models.CASCADE, verbose_name="Estado")
+
+    def __str__(self):
+        return self.nome

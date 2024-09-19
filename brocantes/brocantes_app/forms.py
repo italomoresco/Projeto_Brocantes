@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Instituicao, Estado, Cidade
+from .models import User, Instituicao, Estado, Cidade, Doador
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Login', max_length=100)
@@ -39,3 +39,7 @@ class InstituicaoForm(forms.ModelForm):
         elif self.instance.pk:
             self.fields['cidade'].queryset = self.instance.estado.cidades.order_by('nome')
 
+class DoadorForm(forms.ModelForm):
+    class Meta:
+        model = Doador
+        fields = ['nome', 'email', 'telefone', 'documento_id', 'cidade', 'estado']

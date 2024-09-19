@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Cadastrar Doador</h2>
+
+  <!-- Exibe a mensagem de sucesso, se houver -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Formulário de cadastro do doador -->
+  <form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="id_nome">Nome:</label>
+      <input type="text" id="id_nome" name="nome" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_email">Email:</label>
+      <input type="email" id="id_email" name="email" class="form-control">
+    </div>
+    
+    <div class="form-group">
+      <label for="id_telefone">Telefone:</label>
+      <input type="text" id="id_telefone" name="telefone" class="form-control">
+    </div>
+    
+    <div class="form-group">
+      <label for="id_documento_id">Documento de Identificação:</label>
+      <input type="text" id="id_documento_id" name="documento_id" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="id_estado">Estado:</label>
+      <select id="id_estado" name="estado" class="form-control" required>
+        <option value="">Selecione um Estado</option>
+        {% for estado in estados %}
+        <option value="{{ estado.id }}">{{ estado.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="id_cidade">Cidade:</label>
+      <select id="id_cidade" name="cidade" class="form-control" required>
+        <option value="">Selecione uma Cidade</option>
+        <!-- As opções serão carregadas dinamicamente via AJAX -->
+      </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+
+  <!-- Script para carregar cidades dinamicamente -->
+  <script>
+    document.getElementById('id_estado').addEventListener('change', function() {
+      var estadoId = this.value;
+      var cidadeSelect = document.getElementById('id_cidade');
+      
+      // Limpa o campo de cidade
+      cidadeSelect.innerHTML = '<option value="">Selecione uma Cidade</option>';
+
+      if (estadoId) {
+        fetch(`/cidades_por_estado/${estadoId}/`)
+        .then(response => response.json())
+        .then(data => {
+          data.cidades.forEach(function(cidade) {
+            var option = document.createElement('option');
+            option.value = cidade.id;
+            option.textContent = cidade.nome;
+            cidadeSelect.appendChild(option);
+          });
+        });
+      }
+    });
+  </script>
+{% endblock %}

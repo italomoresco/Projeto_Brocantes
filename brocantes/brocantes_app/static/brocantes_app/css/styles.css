@@ -89,3 +89,16 @@ button:hover {
 .checkbox-container input[type="checkbox"] {
     margin-right: 10px;
 }
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
