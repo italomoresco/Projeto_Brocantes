@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <!-- <h2 class="text-center">Lista de Doadores</h2> -->
-  <div class="container-lista">
-    <h2>Lista de Doadores</h2>
+{% block container_class %}container-lista{% endblock %}
 
-  <a href="{% url 'cadastrar_doador' %}" class="btn btn-success mb-3">Adicionar Novo Doador</a>
+{% block content %}
+  <h2>Lista de Doadores</h2>
+  
+  <!-- <a href="{% url 'cadastrar_doador' %}" class="btn btn-success">Adicionar Novo Doador</a> -->
+  <div class="button-container">
+    <a href="{% url 'cadastrar_doador' %}" class="btn btn-success">Adicionar Novo Doador</a>
+  </div>   
 
   <div class="table-responsive">
-    <table class="table table-striped table-bordered w-100">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>#</th>

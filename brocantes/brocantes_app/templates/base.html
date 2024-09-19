@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'brocantes_app/css/styles.css' %}">
 </head>
 <body>
-    <div class="container">
+    <div class="{% block container_class %}container{% endblock %}">
         {% block content %}
         <!-- O conteúdo das páginas será renderizado aqui -->
         {% endblock %}
