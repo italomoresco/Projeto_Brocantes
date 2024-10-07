@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'brocantes_app/css/cadastrar_doacao.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-doacao">
+    <h2>Cadastrar Doação</h2>
+    <form method="post">
+        {% csrf_token %}
+                
+        <!-- Exibe o formulário de forma organizada -->
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_doador">Doador:</label>
+                    {{ form.doador }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_numero_controle">Número de Controle:</label>
+                    {{ form.numero_controle }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_link_documento_original">Link do Documento Original:</label>
+                    {{ form.link_documento_original }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_link_documento_tajado">Link do Documento tarjado:</label>
+                    {{ form.link_documento_tajado }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_descricao_arquivo">Descrição do arquivo:</label>
+                    {{ form.descricao_arquivo }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_ano">Ano:</label>
+                    {{ form.ano }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_paginas">Páginas:</label>
+                    {{ form.paginas }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_largura">Largura (cm):</label>
+                    {{ form.largura }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_comprimento">Comprimento (cm):</label>
+                    {{ form.comprimento }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_classificacao">Classificação:</label>
+                    {{ form.classificacao }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Campos novos -->
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_nivel">Nível:</label>
+                    {{ form.nivel }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_curso">Curso:</label>
+                    {{ form.curso }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_instituicao">Instituição:</label>
+                    {{ form.instituicao }}
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_observacao">Observação:</label>
+                    {{ form.observacao }}
+                </div>
+            </div>
+        </div>       
+
+        <div class="row-doacao">
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_estado">Estado:</label>
+                    <select id="id_estado" name="estado" class="form-control" required>
+                        <option value="">Selecione um Estado</option>
+                        {% for estado in estados %}
+                        <option value="{{ estado.id }}">{{ estado.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6-doacao">
+                <div class="form-group-doacao">
+                    <label for="id_cidade">Cidade:</label>
+                    <select id="id_cidade" name="cidade" class="form-control" required>
+                        <option value="">Selecione uma Cidade</option>
+                        <!-- As opções serão carregadas dinamicamente via AJAX -->
+                    </select>
+                </div>
+            </div>
+        </div>              
+
+        <div class="row-doacao">
+            <div class="col-md-4">
+                <div class="form-group-doacao">
+                    <label for="id_digitalizado">Digitalizado:</label>
+                    {{ form.digitalizado }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group-doacao"> 
+                    <label for="id_devolucao">Devolução:</label>
+                    {{ form.devolucao }}
+                </div> 
+            </div>
+            <div class="col-md-4">
+                <div class="form-group-doacao">
+                    <label for="id_publicado">Publicado:</label>
+                    {{ form.publicado }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group-doacao">
+            <label for="id_recebido">Recebido:</label>
+            {{ form.recebido }}
+        </div>
+
+        <div class="form-group-doacao">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+    </form>
+
+
+  <!-- Script para carregar cidades dinamicamente -->
+  <script>
+    document.getElementById('id_estado').addEventListener('change', function() {
+      var estadoId = this.value;
+      var cidadeSelect = document.getElementById('id_cidade');
+      
+      // Limpa o campo de cidade
+      cidadeSelect.innerHTML = '<option value="">Selecione uma Cidade</option>';
+
+      if (estadoId) {
+        fetch(`/cidades_por_estado/${estadoId}/`)
+        .then(response => response.json())
+        .then(data => {
+          data.cidades.forEach(function(cidade) {
+            var option = document.createElement('option');
+            option.value = cidade.id;
+            option.textContent = cidade.nome;
+            cidadeSelect.appendChild(option);
+          });
+        });
+      }
+    });
+  </script>
+
+</div>
+{% endblock %}

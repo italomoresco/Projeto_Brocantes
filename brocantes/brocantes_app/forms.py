@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Instituicao, Estado, Cidade, Doador
+from .models import User, Instituicao, Estado, Cidade, Doador, Doacao
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Login', max_length=100)
@@ -43,3 +43,15 @@ class DoadorForm(forms.ModelForm):
     class Meta:
         model = Doador
         fields = ['nome', 'email', 'telefone', 'documento_id', 'cidade', 'estado']
+
+class DoacaoForm(forms.ModelForm):
+    class Meta:
+        model = Doacao
+        fields = [
+            'doador', 'numero_controle', 'link_documento_original', 
+            'link_documento_tajado', 'descricao_arquivo', 'ano', 
+            'paginas', 'largura', 'comprimento', 'classificacao', 
+            'nivel', 'curso', 'instituicao', 'cidade', 'estado', 
+            'observacao', 'digitalizado', 'devolucao', 'recebido', 'publicado'
+        ]        
+

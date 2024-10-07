@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block container_class %}container-lista{% endblock %}
+
+{% block content %}
+  <h2>Lista de Doações</h2>
+  
+  <div class="button-container">
+    <a href="{% url 'cadastrar_doacao' %}" class="btn btn-success">Adicionar Nova Doação</a>
+  </div>   
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Doador</th>
+          <th>N° de Controle</th>
+          <th>Link Arquivo | Original</th>
+          <th>Link Arquivo | Tarjado</th>
+          <th>Descrição</th>
+          <th>Ano</th>
+          <th>Páginas</th>
+          <th>Largura</th>
+          <th>Comprimento</th>
+          <th>Classificação</th>
+          <th>Nível</th>
+          <th>Curso</th>
+          <th>Instituição</th>
+          <th>Observação</th>
+          <th>Digitalizado</th>          
+          <th>Devolução</th>                    
+          <th>Recebido</th>                    
+          <th>Publicado</th>                    
+          <th>Cidade</th>
+          <th>Estado</th>          
+        </tr>
+      </thead>
+      <tbody>
+        {% for doacao in doacoes %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ doacao.doador.nome }}</td>
+          <td>{{ doacao.numero_controle }}</td>
+          <td>{{ doacao.link_documento_original }}</td>
+          <td>{{ doacao.link_documento_tajado }}</td>
+          <td>{{ doacao.descricao }}</td>
+          <td>{% if doacao.ano %}{{ doacao.ano }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.paginas %}{{ doacao.paginas }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.largura %}{{ doacao.largura }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.comprimento %}{{ doacao.comprimento }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.classificacao %}{{ doacao.classificacao }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.nivel %}{{ doacao.nivel }}{% else %}Não informado{% endif %}</td>
+          <td>{% if doacao.curso %}{{ doacao.curso }}{% else %}Não informado{% endif %}</td>
+          <td>{{ doacao.instituicao }}</td>
+          <td>{% if doacao.observacao %}{{ doacao.observacao }}{% else %}Não informado{% endif %}</td>
+          <td>{{ doacao.digitalizado }}</td>
+          <td>{{ doacao.devolucao }}</td>
+          <td>{% if doacao.recebido %}{{ doacao.recebido }}{% else %}Não informado{% endif %}</td>
+          <td>{{ doacao.publicado }}</td>
+          <td>{{ doacao.cidade.nome }}</td>
+          <td>{{ doacao.estado.nome }}</td>
+          <td>
+            <a href="{% url 'editar_doacao' doacao.id %}" class="btn btn-primary btn-sm">Editar</a>
+            <a href="{% url 'excluir_doacao' doacao.id %}" class="btn btn-danger btn-sm">Excluir</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8">Nenhuma Doação encontrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  <div class="pagination">
+    <span class="step-links">
+        {% if doacao.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ doacao.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ doacao.number }} de {{ doacao.paginator.num_pages }}.
+        </span>
+
+        {% if doacao.has_next %}
+            <a href="?page={{ doacao.next_page_number }}">Próxima</a>
+            <a href="?page={{ doacao.paginator.num_pages }}">Última &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+{% endblock %}

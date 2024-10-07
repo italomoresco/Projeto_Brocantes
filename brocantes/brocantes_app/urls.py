@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import cidades_por_estado, cadastrar_doador, editar_doador, excluir_doador
+from .views import cidades_por_estado, cadastrar_doador, editar_doador, excluir_doador, cadastrar_doacao
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -14,6 +14,10 @@ urlpatterns = [
     path('doadores/', views.listar_doadores, name='listar_doadores'),
     path('editar_doador/<int:doador_id>/', editar_doador, name='editar_doador'),
     path('excluir_doador/<int:doador_id>/', excluir_doador, name='excluir_doador'),
+    path('cadastrar_doacao/', cadastrar_doacao, name='cadastrar_doacao'),
+    path('doacoes/',views.listar_doacoes, name='listar_doacoes'),
+    path('excluir_doacao/<int:doacao_id>/', views.excluir_doacao, name='excluir_doacao'),
+    path('editar_doacao/<int:doacao_id>/', views.editar_doacao, name='editar_doacao'),
 ]
 
 

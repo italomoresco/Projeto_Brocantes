@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, RegisterForm, InstituicaoForm, DoadorForm
-from .models import User, Cidade, Estado, Instituicao, Doador
+from .forms import LoginForm, RegisterForm, InstituicaoForm, DoadorForm, DoacaoForm
+from .models import User, Cidade, Estado, Instituicao, Doador, Doacao
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from brocantes_app.models import Cidade, Estado
@@ -19,7 +19,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirecionar para a página inicial após o login bem-sucedido
+                return redirect('home')  
             else:
                 messages.error(request, 'Login ou senha incorretos')
     else:
@@ -28,7 +28,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirecionar para a página de login após o logout
+    return redirect('login') 
 
 @login_required
 def home(request):
@@ -59,7 +59,6 @@ def cadastrar_instituicao(request):
         nome_instituicao = request.POST.get('nome')
 
         if not estado_id or not cidade_id:
-            # Verifica se o estado ou a cidade não foram selecionados
             error_message = "Por favor, selecione o estado e a cidade!"
             return render(request, 'cadastrar_instituicao.html', {'estados': estados, 'error_message': error_message})
 
@@ -67,7 +66,6 @@ def cadastrar_instituicao(request):
             estado = Estado.objects.get(id=estado_id)
             cidade = Cidade.objects.get(id=cidade_id)
 
-            # Cria a instituição apenas se ambos estiverem válidos
             Instituicao.objects.create(nome=nome_instituicao, estado=estado, cidade=cidade)
             #return redirect('instituicoes_list')
             return redirect('home')
@@ -90,7 +88,7 @@ def cidades_por_estado(request, estado_id):
 
 @login_required
 def cadastrar_doador(request):
-    estados = Estado.objects.all().order_by('nome')  # Carrega os estados em ordem alfabética
+    estados = Estado.objects.all().order_by('nome')  
     if request.method == 'POST':
         form = DoadorForm(request.POST)
         if form.is_valid():
@@ -102,17 +100,10 @@ def cadastrar_doador(request):
         form = DoadorForm()
     return render(request, 'cadastrar_doador.html', {'form': form, 'estados': estados})
 
-# @login_required
-# def listar_doadores(request):
-#     doadores = Doador.objects.all()  # Consulta todos os doadores
-#     return render(request, 'listar_doadores.html', {'doadores': doadores})
-
-
-# from django.core.paginator import Paginator
 @login_required
 def listar_doadores(request):
     doadores_list = Doador.objects.all()
-    paginator = Paginator(doadores_list, 10)  # Mostra 10 doadores por página
+    paginator = Paginator(doadores_list, 10)  
 
     page_number = request.GET.get('page')
     doadores = paginator.get_page(page_number)
@@ -128,20 +119,6 @@ def excluir_doador(request, doador_id):
         return redirect('listar_doadores')
 
     return render(request, 'excluir_doador.html', {'doador': doador})
-
-# @login_required
-# def editar_doador(request, doador_id):
-#     doador = get_object_or_404(Doador, pk=doador_id)
-
-#     if request.method == 'POST':
-#         form = DoadorForm(request.POST, instance=doador)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('listar_doadores')  # Redireciona para a lista de doadores após salvar
-#     else:
-#         form = DoadorForm(instance=doador)
-
-#     return render(request, 'editar_doador.html', {'form': form, 'doador': doador})
 
 @login_required
 def editar_doador(request, doador_id):
@@ -163,3 +140,53 @@ def editar_doador(request, doador_id):
         'estados': estados,
         'cidades': cidades
     })
+
+@login_required
+def cadastrar_doacao(request):
+    estados = Estado.objects.all().order_by('nome')
+    if request.method == 'POST':
+        form = DoacaoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Doação gravada com sucesso!')
+            return redirect('listar_doacoes')
+    else:
+        form = DoacaoForm()
+
+    return render(request, 'cadastrar_doacao.html', {'form': form, 'estados': estados})
+
+@login_required
+def listar_doacoes(request):
+    doacoes_list = Doacao.objects.all()
+    paginator = Paginator(doacoes_list, 10)  
+
+    page_number = request.GET.get('page')
+    doacoes = paginator.get_page(page_number)
+
+    return render(request, 'listar_doacoes.html', {'doacoes': doacoes})
+
+@login_required
+def excluir_doacao(request, doacao_id):
+    doacao = get_object_or_404(Doacao, id=doacao_id)
+    
+    if request.method == "POST":
+        doacao.delete()
+        messages.success(request, 'Doação excluída com sucesso!')
+        return redirect('listar_doacoes')  
+    
+    return render(request, 'excluir_doacao.html', {'doacao': doacao})
+
+@login_required
+def editar_doacao(request, doacao_id):
+    doacao = get_object_or_404(Doacao, id=doacao_id)
+    
+    if request.method == 'POST':
+        form = DoacaoForm(request.POST, instance=doacao)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Doação editada com sucesso!')
+            return redirect('listar_doacoes')  
+    else:
+        form = DoacaoForm(instance=doacao)
+
+    return render(request, 'editar_doacao.html', {'form': form, 'doacao': doacao})

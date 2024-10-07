@@ -64,3 +64,29 @@ class Doador(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Doacao(models.Model):
+    doador = models.ForeignKey(Doador, on_delete=models.CASCADE)
+    numero_controle = models.CharField(max_length=30)
+    link_documento_original = models.CharField(max_length=200)
+    link_documento_tajado = models.CharField(max_length=200)
+    descricao_arquivo = models.CharField(max_length=200)
+    ano = models.IntegerField()
+    paginas = models.IntegerField()
+    largura = models.FloatField()
+    comprimento = models.FloatField()
+    classificacao = models.CharField(max_length=50)
+    nivel = models.CharField(max_length=50)
+    curso = models.CharField(max_length=50)
+    instituicao = models.ForeignKey(Instituicao, on_delete=models.CASCADE)
+    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
+    estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    observacao = models.CharField(max_length=300, blank=True, null=True)
+    digitalizado = models.BooleanField(default=False)
+    devolucao = models.BooleanField(default=False)
+    recebido = models.CharField(max_length=20, blank=True, null=True)
+    publicado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Doação {self.numero_controle}"
+

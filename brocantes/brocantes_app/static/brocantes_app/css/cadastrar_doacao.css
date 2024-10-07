@@ -1,0 +1,81 @@
+.container-doacao {
+  width: 100%; /* Ajusta a largura para ocupar a tela toda */
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.row-doacao {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  justify-content: space-between; /* Adicionei para garantir espaçamento correto */
+}
+
+.col-md-6-doacao {
+  flex: 0 0 48%; /* Ajustei a largura para 48% para ter espaçamento entre as colunas */
+  max-width: 48%;
+  padding: 0 15px;
+}
+
+.form-group-doacao {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+  width: 100%;
+  justify-content: left;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+  .col-md-6-doacao {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
