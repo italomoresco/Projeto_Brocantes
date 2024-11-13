@@ -87,6 +87,67 @@ def cidades_por_estado(request, estado_id):
     return JsonResponse({'cidades': list(cidades)})    
 
 @login_required
+def listar_instituicoes(request):
+    instituicoes = Instituicao.objects.all()
+    return render(request, 'listar_instituicoes.html', {'instituicoes': instituicoes})
+
+@login_required
+# def editar_instituicao(request, codigo):
+#     instituicao = get_object_or_404(Instituicao, codigo=codigo)
+    
+#     if request.method == 'POST':
+#         form = InstituicaoForm(request.POST, instance=instituicao)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('listar_instituicoes')
+#     else:
+#         form = InstituicaoForm(instance=instituicao)
+    
+#     return render(request, 'editar_instituicao.html', {'form': form, 'instituicao': instituicao})
+
+# def editar_instituicao(request, codigo):
+#     instituicao = get_object_or_404(Instituicao, codigo=codigo)
+#     estados = Estado.objects.all()  # Supondo que você tenha um modelo de estados
+
+#     if request.method == 'POST':
+#         instituicao.nome = request.POST.get('nome')
+#         instituicao.estado_id = request.POST.get('estado')
+#         instituicao.cidade_id = request.POST.get('cidade')
+#         instituicao.save()
+#         return redirect('listar_instituicoes')
+
+#     return render(request, 'editar_instituicao.html', {'instituicao': instituicao, 'estados': estados})
+
+def editar_instituicao(request, codigo):
+    instituicao = get_object_or_404(Instituicao, codigo=codigo)
+    estados = Estado.objects.all()
+    cidades = Cidade.objects.filter(estado=instituicao.estado)
+
+    if request.method == 'POST':
+        instituicao.nome = request.POST.get('nome')
+        instituicao.estado_id = request.POST.get('estado')
+        instituicao.cidade_id = request.POST.get('cidade')
+        instituicao.save()
+        return redirect('listar_instituicoes')
+
+    return render(request, 'editar_instituicao.html', {
+        'instituicao': instituicao,
+        'estados': estados,
+        'cidades': cidades  
+    })
+
+@login_required
+def excluir_instituicao(request, codigo):
+    instituicao = get_object_or_404(Instituicao, codigo=codigo)
+    
+    if request.method == 'POST':
+        instituicao.delete()
+        return redirect('listar_instituicoes')
+    
+    return render(request, 'excluir_instituicao.html', {'instituicao': instituicao})
+
+
+@login_required
 def cadastrar_doador(request):
     estados = Estado.objects.all().order_by('nome')  
     if request.method == 'POST':

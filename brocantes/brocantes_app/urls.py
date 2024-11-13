@@ -18,6 +18,9 @@ urlpatterns = [
     path('doacoes/',views.listar_doacoes, name='listar_doacoes'),
     path('excluir_doacao/<int:doacao_id>/', views.excluir_doacao, name='excluir_doacao'),
     path('editar_doacao/<int:doacao_id>/', views.editar_doacao, name='editar_doacao'),
+    path('instituicoes/', views.listar_instituicoes, name='listar_instituicoes'),
+    path('instituicoes/editar/<int:codigo>/', views.editar_instituicao, name='editar_instituicao'),
+    path('instituicoes/excluir/<int:codigo>/', views.excluir_instituicao, name='excluir_instituicao'),
 ]
 
 

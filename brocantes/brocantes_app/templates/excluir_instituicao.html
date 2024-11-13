@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Instituição{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Tem certeza que deseja excluir a instituição "{{ instituicao.nome }}"?</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'listar_instituicoes' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

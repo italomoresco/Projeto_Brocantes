@@ -6,6 +6,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  padding-top: 80px; 
 }
 
 /* .container-lista {
@@ -212,3 +213,27 @@ button:hover {
   border: 1px solid #ddd;
   background-color: #f8f9fa;
 }
+
+/* Adicionando estilo para tabelas */
+.table-list {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;  /* Para evitar sobreposição com a navbar */
+  border-collapse: collapse;
+}
+
+.table-list th, .table-list td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table-list th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table-list td {
+  background-color: #fff;
+}
+
