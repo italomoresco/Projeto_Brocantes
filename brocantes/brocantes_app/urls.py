@@ -4,6 +4,8 @@ from .views import cidades_por_estado, cadastrar_doador, editar_doador, excluir_
 
 urlpatterns = [
     path('', views.home, name='home'),
+    # path('', views.consulta_doacoes, name='consulta_doacoes'),  
+    path('app/', views.vue_app, name='vue_app'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
@@ -21,6 +23,7 @@ urlpatterns = [
     path('instituicoes/', views.listar_instituicoes, name='listar_instituicoes'),
     path('instituicoes/editar/<int:codigo>/', views.editar_instituicao, name='editar_instituicao'),
     path('instituicoes/excluir/<int:codigo>/', views.excluir_instituicao, name='excluir_instituicao'),
+    path('consulta_doacoes/', views.consulta_doacoes, name='consulta_doacoes'),
 ]
 
 

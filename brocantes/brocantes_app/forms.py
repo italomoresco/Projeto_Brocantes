@@ -55,3 +55,12 @@ class DoacaoForm(forms.ModelForm):
             'observacao', 'digitalizado', 'devolucao', 'recebido', 'publicado'
         ]        
 
+class DoacaoFilterForm(forms.Form):
+    doador = forms.ModelChoiceField(queryset=Doador.objects.all(), required=False, label="Doador")
+    numero_controle = forms.CharField(max_length=30, required=False, label="Número de Controle")
+    ano = forms.IntegerField(required=False, label="Ano")
+    descricao_arquivo = forms.CharField(max_length=200, required=False, label="Descrição do Arquivo")
+    classificacao = forms.CharField(max_length=50, required=False, label="Classificação")
+    curso = forms.CharField(max_length=50, required=False, label="Curso")
+    cidade = forms.ModelChoiceField(queryset=Cidade.objects.all(), required=False, label="Cidade")
+    estado = forms.ModelChoiceField(queryset=Estado.objects.all(), required=False, label="Estado")

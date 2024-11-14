@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, RegisterForm, InstituicaoForm, DoadorForm, DoacaoForm
+from .forms import LoginForm, RegisterForm, InstituicaoForm, DoadorForm, DoacaoForm, DoacaoFilterForm
 from .models import User, Cidade, Estado, Instituicao, Doador, Doacao
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -30,7 +30,7 @@ def logout_view(request):
     logout(request)
     return redirect('login') 
 
-@login_required
+#@login_required
 def home(request):
     return render(request, 'home.html')
 
@@ -251,3 +251,30 @@ def editar_doacao(request, doacao_id):
         form = DoacaoForm(instance=doacao)
 
     return render(request, 'editar_doacao.html', {'form': form, 'doacao': doacao})
+
+def vue_app(request):
+    return render(request, 'vue_app.html')  # Certifique-se de que o caminho para o template está correto
+
+def consulta_doacoes(request):
+    form = DoacaoFilterForm(request.GET or None)
+    doacoes = Doacao.objects.all()
+
+    if form.is_valid():
+        if form.cleaned_data['doador']:
+            doacoes = doacoes.filter(doador=form.cleaned_data['doador'])
+        if form.cleaned_data['numero_controle']:
+            doacoes = doacoes.filter(numero_controle__icontains=form.cleaned_data['numero_controle'])
+        if form.cleaned_data['ano']:
+            doacoes = doacoes.filter(ano=form.cleaned_data['ano'])
+        if form.cleaned_data['descricao_arquivo']:
+            doacoes = doacoes.filter(descricao_arquivo__icontains=form.cleaned_data['descricao_arquivo'])
+        if form.cleaned_data['classificacao']:
+            doacoes = doacoes.filter(classificacao__icontains=form.cleaned_data['classificacao'])
+        if form.cleaned_data['curso']:
+            doacoes = doacoes.filter(curso__icontains=form.cleaned_data['curso'])
+        if form.cleaned_data['cidade']:
+            doacoes = doacoes.filter(cidade=form.cleaned_data['cidade'])
+        if form.cleaned_data['estado']:
+            doacoes = doacoes.filter(estado=form.cleaned_data['estado'])
+
+    return render(request, 'consulta_doacoes.html', {'form': form, 'doacoes': doacoes})

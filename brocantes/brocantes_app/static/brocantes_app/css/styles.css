@@ -9,6 +9,98 @@ body {
   padding-top: 80px; 
 }
 
+.login-container {
+  width: 300px;
+  margin: 0 auto;
+  margin-top: -200px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-form {
+  width: 300px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-search {
+  width: 70%; /* Define a largura do formulário de pesquisa */
+  margin: 0 auto; /* Centraliza o formulário na página */
+}
+
+.consulta-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.consulta-container h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.search-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.search-field {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 38px;
+}
+
+.table-striped {
+  margin-top: 20px;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center; /* Centraliza o botão horizontalmente */
+  margin-top: 0.5rem; /* Equivalente a mt-4 */
+  width: 500px;
+}
+
+.full-width-button {
+  width: 100%; /* Faz o botão ocupar toda a largura disponível */
+  max-width: 300px; /* Define uma largura máxima opcional */
+}
+
+.home-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Espaçamento interno para o efeito de moldura */
+  border: 10px solid #e0e0e0; /* Cor e espessura da borda */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de elevação */
+  border-radius: 15px; /* Arredondamento dos cantos */
+  background-color: #fafafa; /* Cor de fundo da moldura */
+  margin: 40px auto; /* Centraliza e adiciona espaço ao redor */
+  max-width: 80%; /* Limita a largura para que fique proporcional */
+}
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.home-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Ajusta a imagem para cobrir o contêiner */
+  border-radius: 10px; /* Arredondamento dos cantos da imagem */
+}
+
+
 /* .container-lista {
   background-color: #fff;
   padding: 20px;

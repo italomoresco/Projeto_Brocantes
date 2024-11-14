@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home - Brocantes</title>
-</head>
-<body>
-    <h1>Bem-vindo ao Brocantes</h1>
-    <p>Você está logado!</p>
-    <a href="{% url 'logout' %}">Sair</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="home-frame">
+    <div class="home-container">
+        <img src="{% static 'brocantes_app/images/projeto_brocantes.jpg' %}" alt="Projeto Brocantes" class="home-image">
+    </div>
+</div>
+{% endblock %}
